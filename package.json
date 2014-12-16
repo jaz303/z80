@@ -1,0 +1,24 @@
+{
+  "name": "z80",
+  "version": "0.0.1",
+  "description": "Z80 emulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaz303/z80.git"
+  },
+  "keywords": [
+    "z80",
+    "emulator",
+    "8-bit"
+  ],
+  "author": "Jason Frame <jason@onehackoranother.com> (http://jasonframe.co.uk)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaz303/z80/issues"
+  },
+  "homepage": "https://github.com/jaz303/z80"
+}
