@@ -1,27 +1,41 @@
 var tape = require('tape');
-var realMemory = require('../lib/cpu');
+var createCPU = require('../lib/cpu');
 var R = require('../lib/constants').registers;
 var F = require('../lib/constants').flags;
 
-function test(testCase, instructions, initialState, initialMemory, expectedState) {
+function test(testCase, opts) {
+
 	var actualMemory = new Uint8Array(65536);
+
+	var instructions = opts.code || [];
 	for (var i = 0; i < instructions.length; ++i) {
 		actualMemory[i] = instructions[i];
 	}
-	initialMemory = initialMemory || [];
+	actualMemory[i++] = 0x76; // HALT
+	
+	var initialMemory = opts.memory || [];
 	for (var i = 0; i < initialMemory.length; ++i) {
 		actualMemory[0x8000 + i] = instructions[i];
 	}
+
 	var cpu = createCPU(actualMemory);
-	cpu.run();
-	var actualState = cpu.state();
-	for (var k in actualState) {
-		if (!(k in expectedState)) {
-			expectedState[k] = 0;
-		}
+
+	if (opts.state) {
+		cpu.setState(opts.state);
 	}
+
+	cpu.run();
+	
 	tape(testCase, function(assert) {
-		assert.deepEquals(actualState, expectedState);
+		if (opts.expectedState) {
+			var actualState = cpu.state();
+			var compareState = {};
+			for (var k in opts.expectedState) {
+				compareState[k] = actualState[k];
+			}
+			assert.deepEquals(compareState, opts.expectedState);
+		}
+		assert.end();
 	});
 }
 
@@ -31,4 +45,4 @@ test("LD r, r'", {
 	],
 	state: { A: 0, B: 1 },
 	expectedState: { A: 1, B: 1 }
-};
+});
