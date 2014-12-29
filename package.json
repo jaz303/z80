@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/jaz303/z80/issues"
   },
-  "homepage": "https://github.com/jaz303/z80"
+  "homepage": "https://github.com/jaz303/z80",
+  "dependencies": {
+    "tape": "^3.0.3"
+  }
 }
