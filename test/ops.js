@@ -39,10 +39,24 @@ function test(testCase, opts) {
 	});
 }
 
-test("LD r, r'", {
-	code: [
-		0x40 | (R.A << 3) | (R.B << 0)
-	],
-	state: { A: 0, B: 1 },
-	expectedState: { A: 1, B: 1 }
+['B', 'C', 'D', 'E', 'H', 'L', 'A'].forEach(function(rd) {
+	['B', 'C', 'D', 'E', 'H', 'L', 'A'].forEach(function(rs) {
+
+		var startState = {};
+		startState[rd] = 0;
+		startState[rs] = 1;
+		
+		var endState = {};
+		endState[rs] = 1;
+		endState[rd] = 1;
+
+		test("LD " + rd + ", " + rs, {
+			code: [
+				0x40 | (R[rd] << 3) | (R[rs])
+			],
+			state: startState,
+			expectedState: endState
+		});
+			
+	});
 });
